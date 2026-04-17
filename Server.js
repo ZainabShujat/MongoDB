@@ -12,18 +12,22 @@ app.use(express.json());
 app.use(cors());
 
 
-mongoose.connect('mongodb+srv://zainabshujatali_db_user:O9AWeEFm5ztckUKV@cluster0.9upkndp.mongodb.net/?appName=Cluster0')
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
 
-  //schema
+
+// Schema
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   contact: { type: String, required: true },
   password: { type: String, required: true },
 });
+
+// Model
+const User = mongoose.model('User', userSchema);
 
 //login api route
 app.post('/api/login', async (req, res) => {
